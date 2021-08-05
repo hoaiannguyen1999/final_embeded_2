@@ -3,9 +3,9 @@
 // ket noi database
 // Connect to database
 $server = "localhost";
-$user = "root";
-$password = "";
-$dbname = "home";
+$user = "An";
+$password = "Anmysql99@";
+$dbname = "final_project";
 
 $conn = mysqli_connect($server,$user,$password,$dbname);
 
