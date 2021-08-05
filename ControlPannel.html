@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="stylecontroll.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+        <style>html {background: #E8FFFF;}
+
+        .box {
+            margin-top: 100px;
+            margin-left: 400px;
+            background-size: cover;
+            transition: 0.5s;
+        }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+	<body>
+        <input type="checkbox" id="check">
+        <header>
+            <label for="check">
+                <i class="fas fa-bars" id="sidebar_btn"></i>
+            </label>
+            
+            <div class="left_area">
+                <h3>SMART HOME <span>SYSTEM</span></h3>
+            </div>
+            <div class="right_area">
+                <a href="index.html" class="return_btn" target="_self">HOME</a>
+            </div>
+            
+        </header>
+
+        <div class="sidebar">
+            <center>
+                <img src="l.png" alt="" class="intro">
+            </center>
+            <a href="infor.html" target="_self"><i class="fas fa-users"></i><span>MEMBERS</span></a>
+            <a href="ControlPannel.html" target="_self"><i class="fas fa-edit"></i><span>CONTROLL PANNEL</span></a>
+            <a href="chart.html"target="_self"><i class="fal fa-chart-line"></i><span>CHART</span></a>
+        </div>
+        
+        <div class="controllbar">
+            <div class="appliances">
+                <div class="appliance">
+                                   
+                    <input type="checkbox" name="a" id="a" >
+                    <label for="a">
+                    <i class="l"></i>
+                    <strong>Lamp</strong>
+                    <span data-o="opened" data-c="closed"></span>
+                    <a href="lam_history.html"><i class="fas fa-cog"></i></a>     
+                    <small></small>
+                  </label>
+                </div>
+                
+                <div class="appliance">
+                  <input type="checkbox" name="a" id="b">
+                  <label for="b">
+                    <i class="c"></i>
+                    <strong>Door</strong>
+                    <span data-o="opened" data-c="closed"></span>
+                    <a href="DoorHistory.html"><i class="fas fa-cog"></i></a>    
+                    <small> </small>
+                  </label>
+                </div>
+                
+                <div class="appliance">
+                  <input type="checkbox" name="a" id="c">
+                  <label for="c">
+                    <i class="a"></i>
+                    <strong>AC</strong>
+                    <span data-o="opened" data-c="closed"></span>
+                    <a href="AcHistory.html"><i class="fas fa-cog"></i></a>
+                    <b>temp</b>
+                    <small></small>
+                  </label>
+                </div>
+                
+                <div class="appliance">
+                  <input type="checkbox" name="a" id="d">
+                  <label for="d">
+                    <i class="f"></i>
+                    <strong>Fridge</strong>
+                    <span data-o="opened" data-c="closed"></span>
+                    <a href="fridge.html"><i class="fas fa-cog"></i></a>    
+                    <small></small>
+                  </label>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            setInterval(OriginalState,1000); // update devices state every 1s
+
+
+            function OriginalState(){  //Set curent state
+                $.post('readOriginal.php',
+                function(data){
+                    document.getElementById("a").checked = (data[0].state==1);
+
+                    document.getElementById("b").checked = (data[1].state==1);
+
+                    document.getElementById("c").checked = (data[2].state==1);
+
+                    document.getElementById("d").checked = (data[3].state==1);
+                }
+                )}
+
+
+            $(document).ready(function() {    
+                
+                $('#a').change(function () {
+                    if ($('#a').is(":checked"))
+                    {   
+                        $.post('WriteDeviceState.php',{state:1,device:"lamp"})
+                    }
+                    else{
+                        $.post('WriteDeviceState.php',{state:0, device:"lamp"});
+                    }
+                });
+
+                $('#b').change(function () {
+                    if ($('#b').is(":checked"))
+                    {   
+                        $.post('WriteDeviceState.php',{state:1,device:"door"})
+                    }
+                    else{
+                        $.post('WriteDeviceState.php',{state:0, device:"door"});
+                    }
+                });
+
+                $('#c').change(function () {
+                    if ($('#c').is(":checked"))
+                    {   
+                        $.post('WriteDeviceState.php',{state:1,device:"AC"})
+                    }
+                    else{
+                        $.post('WriteDeviceState.php',{state:0, device:"AC"});
+                    }
+                });
+
+                $('#d').change(function () {
+                    if ($('#d').is(":checked"))
+                    {   
+                        $.post('WriteDeviceState.php',{state:1,device:"fridge"})
+                    }
+                    else{
+                        $.post('WriteDeviceState.php',{state:0, device:"fridge"});
+                    }
+                });
+
+
+            });
+        </script>        
+	</body>
+</html>

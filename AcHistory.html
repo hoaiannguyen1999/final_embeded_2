@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="stylecontroll.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+        <style>html {background: #E8FFFF;}
+
+        .box {
+            margin-top: 100px;
+            margin-left: 400px;
+            background-size: cover;
+            transition: 0.5s;
+        }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+	<body>
+        <input type="checkbox" id="check">
+        <header>
+            <label for="check">
+                <i class="fas fa-bars" id="sidebar_btn"></i>
+            </label>
+            
+            <div class="left_area">
+                <h3>SMART HOME <span>SYSTEM</span></h3>
+            </div>
+            <div class="right_area">
+                <a href="index.html" class="return_btn" target="_self">HOME</a>
+            </div>
+            
+        </header>
+
+        <div class="sidebar">
+            <center>
+                <img src="l.png" alt="" class="intro">
+            </center>
+            <a href="infor.html" target="_self"><i class="fas fa-users"></i><span>MEMBERS</span></a>
+            <a href="ControlPannel.html" target="_self"><i class="fas fa-edit"></i><span>CONTROLL PANNEL</span></a>
+            <a href="chart.html"target="_self"><i class="fal fa-chart-line"></i><span>CHART</span></a>
+        </div>
+        <div class="history_table">
+            <form id="OnSchedule" class="form">
+                <label for="OnSchedule">Timmer On</label>
+                <input type="datetime-local" id="OnSchedule"
+                name="On" >
+                <button type="submit" name="save_on" class="btn btn-primary">Save</button>
+            </form>
+
+
+            <form id="OnSchedule" class="form">
+                <label for="OffSchedule">Timmer Off</label>
+                <input type="datetime-local" id="OffSchedule"
+                name="Off" >
+                <button type="submit" name="save_off" class="btn btn-primary" >Save</button>
+            </form>
+                        
+
+            <table class="content-table" id="myTable">
+                <h3>Controll History</h3>
+                <thead>
+                    <tr>
+                        <th width="10%">Order</th>
+                        <th width="10%">Device State</th>
+                        <th width="30%">Datetime</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <script>
+            $(document).ready(function(){
+            updateTable();
+            });
+
+            function updateTable(){
+                $.post("DeviceHistory.php",{device:"AC"},
+                function(data){
+                    console.log(data.length);
+                    num = data.length;
+                    var table = document.getElementById("myTable");
+                    for(let i=num-1; i>(num-10); i--){
+                        // insert row
+                        var row = table.insertRow(num-i);
+                        // insert cells
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        // set value for each cell
+                        cell1.innerHTML = num-i;
+                        if (data[i].state==0) cell2.innerHTML = 'Off';
+                        else cell2.innerHTML = 'On';
+                        cell3.innerHTML = data[i].date_time;
+                        console.log(data[i].date_time);
+                    }
+                })
+            };
+        </script>
+        
+        
+        </div>    
+	</body>
+</html>

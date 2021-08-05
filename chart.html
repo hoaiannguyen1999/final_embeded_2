@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styleinfor.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+        <style>html {background: #E8FFFF;}
+        .content{
+            padding-top: 100px;
+        }
+        </style>
+    </head>
+	<body>
+        <input type="checkbox" id="check">
+        <header>
+            <label for="check">
+                <i class="fas fa-bars" id="sidebar_btn"></i>
+            </label>
+            
+            <div class="left_area">
+                <h3>SMART HOME <span>SYSTEM</span></h3>
+            </div>
+            <div class="right_area">
+                <a href="index.html" class="return_btn" target="_self">HOME</a>
+            </div>
+            
+        </header>
+
+        <div class="sidebar">
+            <center>
+                <img src="l.png" alt="" class="intro">
+            </center>
+            <a href="infor.html" target="_self"><i class="fas fa-users"></i><span>MEMBERS</span></a>
+            <a href="ControlPannel.html" target="_self"><i class="fas fa-edit"></i><span>CONTROLL PANNEL</span></a>
+            <a href="chart.html"target="_self"><i class="fal fa-chart-line"></i><span>CHART</span></a>
+        </div>
+        <div class = "content">
+
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>LED CONTROL</title>
+                <link rel="stylesheet" href="">
+                <style>
+                    body{ font: 12px sans-serif; }
+                    .wrapper{ float: right; width: 80%; padding: 20px; margin: 40px;  }
+                    .box{ margin:auto ; width: 90%;}
+                </style>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"> </script>
+            </head>
+            <body>
+            
+                
+            </body>
+            
+            
+            <body>
+                <div class="wrapper border border-3 rounded border-primary">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <script>
+                    var label = [];
+                    var TEMPERATURE = [];
+                    var LIGHT = [];
+                    
+                    const chartdata = {
+                    labels: label,
+                        datasets: [{
+                            label: 'TEMPERATURE',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: TEMPERATURE
+                        },
+                       
+                        {
+                            label: 'LIGHT',
+                            backgroundColor: 'rgb(132, 99, 255)',
+                            borderColor: 'rgb(132, 99, 255)',
+                            data: LIGHT
+                        }
+                    
+                        ]
+                    };
+                    const config = {
+                        type: 'line',
+                        data: chartdata,
+                        options: {
+                            animation:false
+                        }
+                    };
+                    var myChart = new Chart(
+                        document.getElementById('myChart'),
+                        config
+                    );
+            
+                    // load data tu database
+                    $(document).ready(function(){
+                        updateChart();
+                    });
+                    setInterval(updateChart,2000);
+                    function updateChart(){
+                        // gui request xuong database de lay data
+                        $.post('readData.php',function(data){
+                            var label = [];
+                            var TEMPERATURE = [];
+                            var LIGHT = [];
+                            for(var i in data){
+                                label.push(data[i].stt);
+                                TEMPERATURE.push(data[i].TEMPERATURE);
+                                LIGHT.push(data[i].LIGHT);
+                            }
+                            // console.log(data1);
+                            myChart.data.labels = label;
+                            myChart.data.datasets[0].data = TEMPERATURE;
+                            myChart.data.datasets[1].data = LIGHT;
+                            myChart.update();
+            
+            
+                        })
+            
+            
+                    }
+            
+            
+                </script>  
+            
+            
+            </body> -->
+            </html>
+    </div>
+</body>
+</html>
