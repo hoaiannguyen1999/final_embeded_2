@@ -88,13 +88,60 @@
                     <small></small>
                   </label>
                 </div>
+
+
+                <form action="" id="form" >
+                    <label><strong>Choose Device:</strong></label><br><br>
+
+                    <label for="device">Door</label>
+                    <input type="radio" id="device"
+                    name="device" value="door" >
+
+                    <label for="device">Lamp</label>
+                    <input type="radio" id="device"
+                    name="device" value="lamp" >
+
+                    <label for="device">Ac</label>
+                    <input type="radio" id="device"
+                    name="device" value="ac" >
+
+                    <label for="device">Fridge</label>
+                    <input type="radio" id="device"
+                    name="device" value="fridge" >
+
+                    <br>
+                    <br>
+                    <label for="OnSchedule">Timmer On</label>
+                    <input type="datetime-local" id="OnSchedule"
+                    name="On" >
+                    <br>
+                    <br>
+                    <label for="OffSchedule">Timmer Off</label>
+                    <input type="datetime-local"id="OffSchedule"
+                    name="Off" >
+                    <br>
+                    <br>
+                    <button type="submit" name="save_off" class="btn btn-primary" >Save</button><br><br><br>
+                    
+                </form>
+
+                <table id="myTable" style="width:70%"> 
+                    <thead>
+                    <tr>
+                        <th width="10%">Order</th>
+                        <th width="10%">Device</th>
+                        <th width="30%">Time on</th>
+                        <th width="30%">Time off</th>
+                    </tr>
+                </thead>
+                </table>
+                
             </div>
-        </div>
+
+       </div>
         <script>
 
             setInterval(OriginalState,1000); // update devices state every 1s
-
-
             function OriginalState(){  //Set curent state
                 $.post('readOriginal.php',
                 function(data){
@@ -107,10 +154,42 @@
                     document.getElementById("d").checked = (data[3].state==1);
                 }
                 )}
-
+                //setInterval(updateTable,1000);
+                function updateTable(){
+                $.post("getset_time.php",{device:"device_name"},
+                function(data){
+                    num = data.length;
+                    var table = document.getElementById("myTable");
+                    for(let i=num-1; i>(num-10); i--){
+                        // insert row
+                        var row = table.insertRow(num-i);
+                        // insert cells
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        // set value for each cell
+                        cell1.innerHTML = data[i].stt;
+                        /*if (data[i].state==0) cell2.innerHTML = 'Off';
+                        else cell2.innerHTML = 'On';*/
+                        cell2.innerHTML=data[i].device;
+                        cell3.innerHTML = data[i].time_on;
+                        cell4.innerHTML = data[i].time_off;
+                    }
+                })
+                }
 
             $(document).ready(function() {    
+                $(document).on('submit','#form',function(){
+                $.post("addset_time.php",$('#form').serialize(), function(){
+                    alert("set up done")
+
+                });
                 
+                return false;
+                });
+            // code update table
+                updateTable();
                 $('#a').change(function () {
                     if ($('#a').is(":checked"))
                     {   

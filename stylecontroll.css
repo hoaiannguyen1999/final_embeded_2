@@ -177,7 +177,7 @@ label #sidebar_btn:hover{
     display: none;
 }
 .content{
-    margin-left: 250px;
+    margin-left: 350px;
     background-position: center;
     background-size: cover;
     height: 100vh;
@@ -203,6 +203,7 @@ label #sidebar_btn:hover{
     width: 200px;
     margin: 10px 0;
   }
+
  
 .appliance span {
   position: relative;
@@ -396,6 +397,13 @@ label #sidebar_btn:hover{
   .appliance input:checked + label span::after {
     opacity: 0;
   }
+table ,td{
+border: 3px solid black;
+border-collapse: collapse;
+line-height: 20px;
+padding: 5px;
+
+}
 
 
 
